@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id" oncontextmenu="return false" onselectstart="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CAT VERBAL SERI 3 — 100 SOAL KEMAMPUAN VERBAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Library untuk Download PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root {
+            --navy: #0b2340;
+            --gold: #d4a017;
+            --bg: #f8fafc;
+            --gray: #f1f5f9;
+            --danger: #c0392b;
+            --btn-shadow: #cbd5e1;
+            --selected-bg: #e0f2fe;
+        }
+        * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; }
+        
+        header { background: var(--navy); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--gold); }
+        .header-title h1 { margin: 0; font-size: 18px; color: #fff; }
+        .header-title p { margin: 3px 0 0; font-size: 11px; color: var(--gold); font-weight: bold; }
+        .timer-badge { font-size: 22px; font-weight: bold; color: var(--gold); font-family: monospace; }
+
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+
+        .user-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center; }
+        .user-card input { width: 80%; max-width: 400px; padding: 12px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; margin-top: 15px; outline: none; display: block; margin-left: auto; margin-right: auto; }
+
+        .opt { padding: 12px 16px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: 0.2s; background: #fff; text-align: left; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+        .opt:hover { background: #f1f5f9; border-color: var(--navy); }
+        .opt.selected { background: var(--selected-bg); border-color: var(--navy); font-weight: bold; }
+
+        .nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-top: 15px; }
+        .nav-item { height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .nav-item.filled { background: var(--navy); color: white; }
+        .nav-item.active { border: 2px solid var(--gold); }
+
+        .btn { background: var(--navy); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; display: inline-block; }
+        .btn-gold { background: var(--gold); color: var(--navy); }
+        .btn-green { background: #27ae60; color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+
+        .review-item { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+        .review-item.correct { border-left: 6px solid #27ae60; }
+        .review-item.incorrect { border-left: 6px solid var(--danger); }
+        .pembahasan-box { background: #f1f5f9; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 13px; border-left: 3px solid var(--gold); line-height: 1.5; }
+        .badge-cat { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; background: #e2e8f0; color: var(--navy); margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-title">
+        <h1>CAT VERBAL SERI 3 — 100 SOAL KEMAMPUAN VERBAL</h1>
+        <p>Sinonim • Antonim • Analogi • Hubungan Kata • Pengelompokan Kata</p>
+    </div>
+    <div id="timer" class="timer-badge">90:00</div>
+</header>
+
+<div class="container">
+    <!-- START / LOGIN -->
+    <div id="sec-start" class="user-card">
+        <h2 style="margin:0; color:var(--navy);">CAT VERBAL SERI 3 — 100 SOAL KEMAMPUAN VERBAL</h2>
+        <p style="font-size:14px; color:#64748b; margin-top:5px;">Latihan CAT Kemampuan Verbal Bertingkat (Medium → Upper Medium → Hard → Advanced)</p>
+        <input type="text" id="inputNama" placeholder="Masukkan Nama Lengkap Peserta..." autocomplete="off">
+        <br>
+        <button class="btn btn-gold" style="font-size: 18px; padding: 15px 40px;" onclick="startCAT()">MULAI UJIAN CAT</button>
+    </div>
+
+    <!-- MAIN EXAM -->
+    <div id="sec-exam" style="display:none;">
+        <div style="display:flex; gap:20px; flex-wrap:wrap;">
+            <div style="flex:3; min-width:300px;">
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div id="q-no" style="font-weight:bold; color:var(--navy); margin-bottom:10px;">Soal 1 dari 100</div>
+                        <div id="q-badge" class="badge-cat">Medium</div>
+                    </div>
+                    <div id="q-text" style="font-size:15px; line-height:1.6; margin-bottom:20px;"></div>
+                    <div id="q-options"></div>
+                    <div style="margin-top:25px; display:flex; justify-content:space-between;">
+                        <button class="btn" onclick="prevQuestion()" style="background:#64748b">Sebelumnya</button>
+                        <button class="btn" id="btn-next" onclick="nextQuestion()">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+            <div style="flex:1; min-width:260px;">
+                <div class="card" style="padding:15px;">
+                    <div style="text-align:center; font-size:12px; font-weight:bold; margin-bottom:10px;">NAVIGASI SOAL (1-100)</div>
+                    <div id="navGrid" class="nav-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="sec-result" style="display:none;">
+        <div class="card" style="text-align:center;">
+            <h2 style="color:var(--navy); margin-bottom:5px;">HASIL AKHIR CAT VERBAL SERI 3</h2>
+            <p id="resNama" style="font-weight:bold; color:var(--gold); margin-bottom:20px;">PESERTA: -</p>
+            <div style="background:var(--navy); color:white; padding:20px; border-radius:12px; max-width:400px; margin:0 auto 20px;">
+                <small style="opacity:0.8; font-weight:bold;">SKOR KEMAMPUAN VERBAL (SKALA 100)</small>
+                <div id="resScore" style="font-size:54px; font-weight:900; color:var(--gold); margin:10px 0;">0.0</div>
+                <div id="resDetail" style="font-size:14px;">Jawaban Benar: 0 / 100</div>
+            </div>
+            
+            <div id="rekapKategori" style="text-align:left; max-width:500px; margin:0 auto 20px; font-size:13px; line-height:1.8; background:#f8fafc; padding:15px; border-radius:8px; border:1px solid #cbd5e1;">
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                <button class="btn btn-green" style="padding:15px 30px;" onclick="showReview()">LIHAT PEMBAHASAN SOAL</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REVIEW -->
+    <div id="sec-review" style="display:none;">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #eee; padding-bottom:15px; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                <h2 style="margin:0; color:var(--navy);">PEMBAHASAN 100 SOAL CAT VERBAL SERI 3</h2>
+                <div style="display:flex; gap:10px;">
+                    <button id="btnDownloadReview" class="btn btn-green" onclick="downloadReviewPDF()">📥 DOWNLOAD PEMBAHASAN (PDF)</button>
+                    <button class="btn" onclick="showSection('result')">Kembali ke Hasil</button>
+                </div>
+            </div>
+            <div id="reviewCaptureArea">
+                <div style="text-align:center; margin-bottom:20px; border-bottom:2px solid var(--navy); padding-bottom:10px;">
+                    <h3 style="margin:0; color:var(--navy);">DOKUMEN PEMBAHASAN LENGKAP HASIL SIMULASI</h3>
+                    <p id="reviewNamaPeserta" style="margin:5px 0 0; color:var(--gold); font-weight:bold;">PESERTA: -</p>
+                </div>
+                <div id="reviewContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyFxmO0ocvr5HqK2WuGyjt7_JeTOcs4vGDg7QZejeiE2QvCP_qkonJcZc5hz9AFW2Vg/exec";
+
+    // GENERATOR BANK SOAL VERBAL SERI 3 DENGAN PENGECOH SEIMBANG & DISTRIBUSI KUNCI MERATA (20A, 20B, 20C, 20D, 20E)
+    function buildVerbalQuestionsBalanced() {
+        const rawQuestions = [
+            // --- 1. SINONIM (20 SOAL) ---
+            { cat: "Sinonim", sub: "Kata Umum", level: "Medium", q: "EKSPEDITIF =", correct: "Cepat dan tepat", wrong: ["Sigap bertindak", "Tanggap situasi", "Lancar bekerja", "Tepat waktu"], exp: "Ekspeditif secara spesifik berarti cepat dan tepat dalam melaksanakan tugas atau urusan." },
+            { cat: "Sinonim", sub: "Kata Formal", level: "Medium", q: "RATIFIKASI =", correct: "Pengesahan resmi", wrong: ["Persetujuan awal", "Penetapan aturan", "Pemberlakuan hukum", "Pengundangan draf"], exp: "Ratifikasi adalah pengesahan resmi suatu dokumen atau perjanjian oleh lembaga berwenang." },
+            { cat: "Sinonim", sub: "Kata Abstrak", level: "Medium", q: "RESIDU =", correct: "Sisa / Endapan", wrong: ["Larutan murni", "Unsur dasar", "Bagian akhir", "Hasil olahan"], exp: "Residu merujuk pada sisa atau endapan yang tertinggal setelah suatu proses." },
+            { cat: "Sinonim", sub: "Kata Sifat", level: "Medium", q: "INTREPID =", correct: "Berani / Tak gentar", wrong: ["Penuh percaya diri", "Teguh pendirian", "Kuat mental", "Siap menghadapi"], exp: "Intrepid berarti gagah berani dan tidak gentar menghadapi bahaya atau tantangan." },
+            { cat: "Sinonim", sub: "Kata Kerja", level: "Medium", q: "MENSTIMULASI =", correct: "Merangsang", wrong: ["Menggerakkan", "Mengaktifkan", "Memicu", "Menguatkan"], exp: "Menstimulasi berarti merangsang atau memberi dorongan agar timbul reaksi/kegiatan." },
+            { cat: "Sinonim", sub: "Kontekstual", level: "Medium", q: "EMBARGO =", correct: "Larangan lalu lintas barang", wrong: ["Pembatasan kuota", "Pengawasan ketat", "Penahanan dokumen", "Penghentian sementara"], exp: "Embargo adalah larangan resmi terhadap lalu lintas barang atau perdagangan dengan pihak tertentu." },
+            { cat: "Sinonim", sub: "Akademik", level: "Medium", q: "KORELASI =", correct: "Hubungan timbal balik", wrong: ["Keterkaitan data", "Kesamaan pola", "Kecenderungan arah", "Perbandingan nilai"], exp: "Korelasi adalah hubungan timbal balik atau saling keterkaitan antara dua variabel atau hal." },
+            { cat: "Sinonim", sub: "Kata Formal", level: "Upper Medium", q: "DISPARITAS =", correct: "Perbedaan / Kesenjangan", wrong: ["Keragaman bentuk", "Variasi tingkat", "Jarak capaian", "Pembedaan kategori"], exp: "Disparitas adalah perbedaan atau kesenjangan yang tampak di antara dua hal atau lebih." },
+            { cat: "Sinonim", sub: "Kata Abstrak", level: "Upper Medium", q: "AFIRMASI =", correct: "Penegasan", wrong: ["Pernyataan sikap", "Pengakuan terbuka", "Penetapan resmi", "Kesimpulan akhir"], exp: "Afirmasi berarti penegasan atau penetapan positif terhadap suatu hal." },
+            { cat: "Sinonim", sub: "Kosakata Jarang", level: "Upper Medium", q: "KONSOLIDASI =", correct: "Penggabungan / Penguatan", wrong: ["Penataan struktur", "Penyatuan visi", "Pengaturan ulang", "Pemaduan unsur"], exp: "Konsolidasi adalah perbuatan memperteguh, memperkuat, atau menggabungkan menjadi satu kesatuan yang kukuh." },
+            { cat: "Sinonim", sub: "Nuansa Makna", level: "Upper Medium", q: "DELIBERASI =", correct: "Pertimbangan matang", wrong: ["Rapat kerja", "Tanya jawab", "Uji pendapat", "Kajian bersama"], exp: "Deliberasi adalah pertimbangan secara matang dan cermat sebelum mengambil keputusan." },
+            { cat: "Sinonim", sub: "Banyak Makna", level: "Upper Medium", q: "EKLEKTIK =", correct: "Memilih yang terbaik dari berbagai sumber", wrong: ["Menggabungkan berbagai gaya", "Menyesuaikan banyak aliran", "Menyerap beragam gagasan", "Memadukan banyak metode"], exp: "Eklektik berarti bersifat memilih unsur-unsur terbaik dari berbagai sumber atau aliran." },
+            { cat: "Sinonim", sub: "Pengecoh Mirip", level: "Hard", q: "MITIGASI =", correct: "Pengurangan dampak risiko", wrong: ["Pemulihan pascabencana", "Penanganan darurat", "Penyelamatan korban", "Peringatan dini"], exp: "Mitigasi adalah serangkaian upaya untuk mengurangi dampak atau risiko yang ditimbulkan." },
+            { cat: "Sinonim", sub: "Akademik Tinggi", level: "Hard", q: "PLEONASME =", correct: "Pemakaian kata berlebih", wrong: ["Penyusunan kalimat panjang", "Penekanan istilah khusus", "Penguraian makna luas", "Pengulangan frasa penting"], exp: "Pleonasme adalah pemakaian kata yang lebih daripada yang diperlukan untuk menjelaskan suatu maksud." },
+            { cat: "Sinonim", sub: "Kata Abstrak", level: "Hard", q: "SUBVERSI =", correct: "Gerakan merobohkan kekuasaan sah", wrong: ["Aksi protes massa", "Tindakan oposisi keras", "Gerakan bawah tanah", "Upaya perubahan sistem"], exp: "Subversi adalah gerakan atau usaha merobohkan kekuasaan negara yang sah dengan cara inkonstitusional." },
+            { cat: "Sinonim", sub: "Kontekstual Rumit", level: "Hard", q: "PEJORATIF =", correct: "Bermakna merendahkan", wrong: ["Bernada menyindir", "Bersifat kritis", "Berkesan tajam", "Bermakna khusus"], exp: "Pejoratif berarti mempunyai makna yang menurunkan nilai rasa atau merendahkan martabat." },
+            { cat: "Sinonim", sub: "Nuansa Makna Spesifik", level: "Advanced", q: "SINIKURE =", correct: "Jabatan bergaji tanpa beban kerja", wrong: ["Posisi kehormatan", "Jabatan penasihat", "Kedudukan struktural", "Tugas administratif"], exp: "Sinikure adalah jabatan yang memberi gaji atau keuntungan tetapi hampir tidak menuntut pekerjaan." },
+            { cat: "Sinonim", sub: "Kata Sangat Rinci", level: "Advanced", q: "REKALITRAN =", correct: "Keras kepala / Membangkang", wrong: ["Sulit diarahkan", "Sangat mandiri", "Tegas menolak", "Kuat bertahan"], exp: "Rekalitran berarti bersifat membangkang, keras kepala, atau menolak tunduk pada kendali." },
+            { cat: "Sinonim", sub: "Makna Berlapis", level: "Advanced", q: "ANAKRONISME =", correct: "Ketidaksesuaian dengan zaman", wrong: ["Penyimpangan alur cerita", "Perbedaan latar tempat", "Kesalahan penafsiran", "Pergeseran makna kata"], exp: "Anakronisme adalah ketidaksesuaian tokoh, benda, atau peristiwa dengan kurun waktu zamannya." },
+            { cat: "Sinonim", sub: "Pengecoh Sangat Ketat", level: "Advanced", q: "SAGASITAS =", correct: "Kebijaksanaan dan ketajaman akal", wrong: ["Kecerdasan analisis", "Kematangan emosi", "Ketelitian menilai", "Keluasan wawasan"], exp: "Sagasitas berarti ketajaman akal budi, kebijaksanaan, dan kemampuan menilai secara arif." },
+
+            // --- 2. ANTONIM (20 SOAL) ---
+            { cat: "Antonim", sub: "Kata Sifat", level: "Medium", q: "ABOLISI ×", correct: "Pemberlakuan", wrong: ["Penangguhan", "Pengurangan", "Peringanan", "Penyesuaian"], exp: "Abolisi berarti penghapusan atau peniadaan. Lawan katanya dalam konteks aturan/tindakan adalah Pemberlakuan." },
+            { cat: "Antonim", sub: "Kata Kerja", level: "Medium", q: "EKSPANSI ×", correct: "Kontraksi", wrong: ["Pembatasan", "Pengendalian", "Penstabilan", "Penataan"], exp: "Ekspansi berarti perluasan. Lawan katanya dalam istilah ekonomi/fisika adalah Kontraksi (penyusutan)." },
+            { cat: "Antonim", sub: "Kata Keadaan", level: "Medium", q: "KONSISTEN ×", correct: "Inkonsisten", wrong: ["Fleksibel", "Adaptif", "Dinamis", "Luwes"], exp: "Konsisten berarti tetap dan selaras. Lawan kata langsungnya adalah Inkonsisten." },
+            { cat: "Antonim", sub: "Kata Formal", level: "Medium", q: "SURPLUS ×", correct: "Defisit", wrong: ["Keseimbangan", "Pembagian", "Cadangan", "Anggaran"], exp: "Surplus berarti kelebihan. Lawan kata langsungnya adalah Defisit (kekurangan)." },
+            { cat: "Antonim", sub: "Kata Sifat", level: "Medium", q: "OTENTIK ×", correct: "Tiruan", wrong: ["Modifikasi", "Saduran", "Terjemahan", "Salinan"], exp: "Otentik berarti asli/dapat dipercaya. Lawan katanya adalah Tiruan." },
+            { cat: "Antonim", sub: "Kontekstual", level: "Medium", q: "PROGRESIF ×", correct: "Regresif", wrong: ["Konservatif", "Tradisional", "Lambat", "Bertahap"], exp: "Progresif berarti bergerak maju/meningkat. Lawan katanya adalah Regresif (mundur)." },
+            { cat: "Antonim", sub: "Kata Abstrak", level: "Medium", q: "SIMETRIS ×", correct: "Asimetris", wrong: ["Tidak rata", "Berbeda sisi", "Bervariasi", "Tidak sama"], exp: "Simetris berarti seimbang/sama kedua bagiannya. Lawan kata bakunya adalah Asimetris." },
+            { cat: "Antonim", sub: "Bertingkat", level: "Upper Medium", q: "TRANSPARAN ×", correct: "Buram", wrong: ["Gelap", "Pekat", "Tebal", "Padat"], exp: "Transparan tembus pandang dan jelas. Lawan katanya adalah Buram." },
+            { cat: "Antonim", sub: "Relasional", level: "Upper Medium", q: "EKSTROVERT ×", correct: "Introvert", wrong: ["Pendiam", "Tertutup", "Pemalu", "Mandiri"], exp: "Ekstrovert berorientasi keluar. Lawan istilah psikologisnya adalah Introvert." },
+            { cat: "Antonim", sub: "Proses", level: "Upper Medium", q: "KONVERGEN ×", correct: "Divergen", wrong: ["Terpisah", "Terbagi", "Bercabang", "Menjauh"], exp: "Konvergen menuju satu titik. Lawan istilahnya adalah Divergen (menyebar/menjauh)." },
+            { cat: "Antonim", sub: "Kata Karakter", level: "Upper Medium", q: "PRAGMATIS ×", correct: "Idealis", wrong: ["Konseptual", "Normatif", "Akademis", "Filosofis"], exp: "Pragmatis berorientasi pada kepraktisan/hasil nyata. Lawan sikapnya adalah Idealis." },
+            { cat: "Antonim", sub: "Kontekstual", level: "Upper Medium", q: "MANDIRI ×", correct: "Dependen", wrong: ["Terikat", "Ternaungi", "Terbantu", "Bersama"], exp: "Mandiri berarti berdiri sendiri. Lawan katanya adalah Dependen (bergantung)." },
+            { cat: "Antonim", sub: "Lawan Kata Spesifik", level: "Hard", q: "AMELIORASI ×", correct: "Peyorasi", wrong: ["Kemunduran", "Penurunan", "Pelemahan", "Kerusakan"], exp: "Ameliorasi berarti peningkatan makna ke arah lebih baik. Lawan istilah linguistiknya adalah Peyorasi." },
+            { cat: "Antonim", sub: "Akademik", level: "Hard", q: "EMPIRIS ×", correct: "Spekulatif", wrong: ["Abstrak", "Hipotesis", "Teoretis", "Imajinatif"], exp: "Empiris berdasarkan pengamatan/pengalaman nyata. Lawannya adalah Spekulatif." },
+            { cat: "Antonim", sub: "Nuansa Makna", level: "Hard", q: "BENEVOLEN ×", correct: "Malevolen", wrong: ["Tegas", "Dingin", "Kasar", "Keras"], exp: "Benevolen bermakna berkehendak baik/dermawan. Lawan katanya adalah Malevolen (berniat buruk)." },
+            { cat: "Antonim", sub: "Pengecoh Kuat", level: "Hard", q: "SOLITER ×", correct: "Gregarious", wrong: ["Akrab", "Rukun", "Kompak", "Bersatu"], exp: "Soliter berarti hidup menyendiri. Lawan katanya adalah Gregarious (cenderung berkelompok)." },
+            { cat: "Antonim", sub: "Tingkat Tinggi", level: "Advanced", q: "VERBOSITAS ×", correct: "Keringkasan", wrong: ["Kejelasan", "Ketepatan", "Kesederhanaan", "Ketajaman"], exp: "Verbositas adalah penggunaan kata berlebih-lebihan. Lawan sifatnya adalah Keringkasan." },
+            { cat: "Antonim", sub: "Absolut vs Relatif", level: "Advanced", q: "MUTABLE ×", correct: "Imutabel", wrong: ["Tetap", "Pasti", "Baku", "Stabil"], exp: "Mutable berarti mudah berubah. Lawan katanya adalah Imutabel (tidak berubah/kekal)." },
+            { cat: "Antonim", sub: "Kosakata Klasik", level: "Advanced", q: "PROLIKS ×", correct: "Ringkas", wrong: ["Cepat", "Tegas", "Singkat", "Jelas"], exp: "Proliks berarti terlalu panjang lebar/bertele-tele. Lawan katanya adalah Ringkas." },
+            { cat: "Antonim", sub: "Ketelitian Makna", level: "Advanced", q: "KONTINGEN ×", correct: "Niscaya", wrong: ["Pasti", "Nyata", "Tetap", "Tentu"], exp: "Kontingen bersifat tidak pasti/bergantung keadaan. Lawan katanya adalah Niscaya (pasti terjadi)." },
+
+            // --- 3. ANALOGI DUA KATA (15 SOAL) ---
+            { cat: "Analogi Dua Kata", sub: "Benda & Fungsi", level: "Medium", q: "HIGROMETER : KELEMBAPAN = MANOMETER : ...", correct: "Tekanan Gas", wrong: ["Kepadatan Udara", "Suhu Ruangan", "Laju Aliran", "Daya Dorong"], exp: "Higrometer mengukur kelembapan, Manometer mengukur tekanan gas/fluida." },
+            { cat: "Analogi Dua Kata", sub: "Bahan & Produk", level: "Medium", q: "LATEKS : BAN = PASIR SILIKA : ...", correct: "Kaca", wrong: ["Kristal", "Lensa", "Cermin", "Botol"], exp: "Lateks (getah karet) diolah menjadi ban, pasir silika diolah menjadi kaca." },
+            { cat: "Analogi Dua Kata", sub: "Profesi & Tempat", level: "Medium", q: "ASTRONOM : OBSERVATORIUM = AKTUARIS : ...", correct: "Perusahaan Asuransi", wrong: ["Lembaga Keuangan", "Kantor Pajak", "Bank Sentral", "Bursa Saham"], exp: "Astronom bekerja di observatorium, aktuaris bekerja di perusahaan asuransi." },
+            { cat: "Analogi Dua Kata", sub: "Sebab & Akibat", level: "Medium", q: "ABRASI : GARIS PANTAI = EROSI : ...", correct: "Lapisan Tanah", wrong: ["Permukaan Bumi", "Lereng Bukit", "Dasar Sungai", "Wilayah Hutan"], exp: "Abrasi mengikis garis pantai, erosi mengikis lapisan tanah." },
+            { cat: "Analogi Dua Kata", sub: "Bagian & Keseluruhan", level: "Medium", q: "BAB : BUKU = GERBONG : ...", correct: "Kereta Api", wrong: ["Rangkaian", "Jalur Rel", "Perjalanan", "Transportasi"], exp: "Bab adalah bagian penyusun buku, gerbong adalah bagian penyusun kereta api." },
+            { cat: "Analogi Dua Kata", sub: "Intensitas", level: "Upper Medium", q: "BISIK : TERIAK = JALAN : ...", correct: "Lari", wrong: ["Melaju", "Bergegas", "Melesat", "Memacu"], exp: "Teriak adalah bentuk intensitas tinggi dari bisik, lari adalah bentuk intensitas tinggi dari jalan." },
+            { cat: "Analogi Dua Kata", sub: "Tujuan & Sarana", level: "Upper Medium", q: "KOMPAS : ARAH = KALENDER : ...", correct: "Waktu", wrong: ["Tanggal", "Jadwal", "Bulan", "Tahun"], exp: "Kompas digunakan untuk menentukan arah, kalender digunakan untuk menentukan waktu." },
+            { cat: "Analogi Dua Kata", sub: "Simbol & Makna", level: "Upper Medium", q: "MAHKOTA : KEKUASAAN = OBOR : ...", correct: "Pencerahan", wrong: ["Harapan", "Semangat", "Panduan", "Cahaya"], exp: "Mahkota melambangkan kekuasaan, obor melambangkan pencerahan." },
+            { cat: "Analogi Dua Kata", sub: "Pelaku & Hasil", level: "Upper Medium", q: "KARTOGRAFER : PETA = LEKSIKOGRAFER : ...", correct: "Kamus", wrong: ["Ensiklopedia", "Glosarium", "Tesaurus", "Katalog"], exp: "Kartografer membuat peta, leksikografer menyusun kamus." },
+            { cat: "Analogi Dua Kata", sub: "Hierarki", level: "Hard", q: "BAIT : SONETA = KELOPAK : ...", correct: "Bunga", wrong: ["Mahkota", "Tangkai", "Putik", "Benang Sari"], exp: "Bait membentuk struktur soneta, kelopak membentuk struktur bunga." },
+            { cat: "Analogi Dua Kata", sub: "Organ & Fungsi", level: "Hard", q: "PANKREAS : INSULIN = HATI : ...", correct: "Empedu", wrong: ["Enzim", "Plasma", "Glukosa", "Urea"], exp: "Pankreas menghasilkan insulin, hati menghasilkan empedu." },
+            { cat: "Analogi Dua Kata", sub: "Komplementer", level: "Hard", q: "MORTAR : ALU = LESUNG : ...", correct: "Antan", wrong: ["Penumbuk", "Kayu", "Lumpang", "Padi"], exp: "Mortar berpasangan dengan alu, lesung berpasangan dengan antan." },
+            { cat: "Analogi Dua Kata", sub: "Relasi Spesifik", level: "Advanced", q: "ORNITOLOGI : BURUNG = ENTOMOLOGI : ...", correct: "Serangga", wrong: ["Kumbang", "Kupu-Kupu", "Semut", "Lebah"], exp: "Ornitologi adalah cabang biologi tentang burung, entomologi tentang serangga." },
+            { cat: "Analogi Dua Kata", sub: "Abstrak", level: "Advanced", q: "KONSIDERANS : KEPUTUSAN = MUKADIMAH : ...", correct: "Undang-Undang", wrong: ["Peraturan", "Konstitusi", "Ketentuan", "Naskah"], exp: "Konsiderans adalah pertimbangan dalam keputusan, mukadimah adalah pembukaan dalam undang-undang." },
+            { cat: "Analogi Dua Kata", sub: "Tingkat Lanjut", level: "Advanced", q: "KATALIS : REAKSI KIMIA = MODERATOR : ...", correct: "Diskusi", wrong: ["Debat", "Seminar", "Forum", "Rapat"], exp: "Katalis memperlancar reaksi kimia, moderator memperlancar diskusi." },
+
+            // --- 4. ANALOGI TIGA KATA & RANTAI (15 SOAL) ---
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Rantai Alat-Proses-Hasil", level: "Medium", q: "TEBU → NIRA → GULA setara dengan...", correct: "Kelapa → Santan → Minyak", wrong: ["Kedelai → Tahu → Tempe", "Gandum → Tepung → Roti", "Beras → Tepung → Kue", "Kopi → Bubuk → Minuman"], exp: "Bahan baku → Cairan/hasil ekstrak → Produk olahan akhir." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Format D:E:?", level: "Medium", q: "LUKISAN : PELUKIS : GALERI = PATUNG : PEMATUNG : ...", correct: "Studio Seni", wrong: ["Ruang Kerja", "Balai Seni", "Rumah Budaya", "Gedung Kesenian"], exp: "Karya seni : Seniman pembuat : Tempat berkarya/memajang." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Sebab-Proses-Akibat", level: "Medium", q: "KORSLETING → PERCIKAN API → KEBAKARAN setara dengan...", correct: "Virus → Infeksi → Demam Tinggi", wrong: ["Polusi → Asap → Sesak Napas", "Benturan → Retak → Pecah", "Gesekan → Panas → Aus", "Tetesan → Genangan → Licin"], exp: "Pemicu gangguan → Reaksi awal → Kondisi dampak lanjutannya." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Kategori Bertingkat", level: "Medium", q: "LOGAM → MULIA → PLATINA setara dengan...", correct: "Batuan → Beku → Granit", wrong: ["Mineral → Tambang → Emas", "Kayu → Keras → Jati", "Kain → Tenun → Batik", "Tanah → Subur → Sawah"], exp: "Kelompok materi → Klasifikasi jenis → Contoh spesifik." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Pelaku-Tindakan-Hasil", level: "Upper Medium", q: "KOMPONIS → MENGGUBAH → LAGU setara dengan...", correct: "Penyair → Merangkai → Puisi", wrong: ["Penulis → Menyusun → Cerita", "Editor → Memeriksa → Naskah", "Penerjemah → Mengalihbahasakan → Buku", "Pengarang → Menuliskan → Kisah"], exp: "Seniman pencipta → Aktivitas berkarya → Hasil karya." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Format A:B:C", level: "Upper Medium", q: "BERUDU : KATAK MUDA : KATAK DEWASA = BELATUNG : PUPA : ...", correct: "Lalat", wrong: ["Kumbang", "Tawon", "Ngengat", "Semut"], exp: "Urutan tahapan metamorfosis dari fase larva hingga serangga dewasa." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Rantai Nilai", level: "Upper Medium", q: "PERUMUSAN → PENGESAHAN → IMPLEMENTASI setara dengan...", correct: "Perancangan → Produksi → Distribusi", wrong: ["Pendataan → Pengolahan → Pelaporan", "Pengajuan → Penilaian → Penetapan", "Penyusunan → Peninjauan → Penyempurnaan", "Pencarian → Pemilihan → Pengelolaan"], exp: "Tahapan berurutan dari perencanaan hingga penerapan/penyaluran." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Tiga Unsur Fungsi", level: "Hard", q: "KULIT : SENTUHAN : PERABAAN = MATA : SPEKTRUM : ...", correct: "Penglihatan", wrong: ["Pemandangan", "Ketajaman", "Fokus", "Observasi"], exp: "Organ indra : Stimulus yang ditangkap : Indra/fungsi persepsi." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Rantai Hierarki", level: "Hard", q: "PASAL → BAB → KITAB UNDANG-UNDANG setara dengan...", correct: "Adegan → Babak → Naskah Drama", wrong: ["Ayat → Surah → Kitab Suci", "Kalimat → Paragraf → Karangan", "Subbab → Bagian → Laporan", "Butir → Aturan → Peraturan"], exp: "Unit kecil → Kumpulan unit menengah → Dokumen/karya utuh." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Sebab-Proses-Hasil", level: "Hard", q: "LATIHAN → KEBUGARAN → STAMINA setara dengan...", correct: "Literasi → Wawasan → Kebijaksanaan", wrong: ["Belajar → Pemahaman → Nilai", "Kerja → Pengalaman → Keahlian", "Kajian → Analisis → Ketepatan", "Upaya → Ketekunan → Kemajuan"], exp: "Aktivitas pembiasaan → Peningkatan kapasitas → Kualitas kematangan." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Rantai Kompleks", level: "Advanced", q: "GALAKSI → GUGUS BINTANG → BINTANG setara dengan...", correct: "Korporasi → Divisi → Departemen", wrong: ["Wilayah → Kawasan → Daerah", "Federasi → Asosiasi → Klub", "Kementerian → Direktorat → Bagian", "Lembaga → Unit → Kelompok"], exp: "Struktur sistem besar → Sub-sistem menengah → Unit bagian spesifik." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Tiga Unsur Rantai", level: "Advanced", q: "SPEKULASI → RISIKO → KERUGIAN setara dengan...", correct: "Investigasi → Bukti → Kepastian", wrong: ["Prediksi → Data → Akurasi", "Simulasi → Uji → Evaluasi", "Eksperimen → Hasil → Temuan", "Perkiraan → Peluang → Keuntungan"], exp: "Tindakan/metode awal → Faktor penentu → Hasil/kondisi akhir." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Kategori Bertingkat Rumit", level: "Advanced", q: "EPIDEMIOLOGI → KEDOKTERAN → ILMU KESEHATAN setara dengan...", correct: "Kriminologi → Sosiologi → Ilmu Sosial", wrong: ["Botani → Biologi → Ilmu Hayati", "Termodinamika → Fisika → Ilmu Alam", "Makroekonomi → Ekonomi → Ilmu Sosial", "Logika → Filsafat → Humaniora"], exp: "Sub-disiplin khusus → Cabang ilmu induk → Rumpun keilmuan utama." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Rantai Tindakan Siklus", level: "Advanced", q: "SKRINING → DIAGNOSIS → TERAPI setara dengan...", correct: "Seleksi → Orientasi → Penempatan", wrong: ["Audit → Temuan → Rekomendasi", "Survei → Pemetaan → Perencanaan", "Observasi → Klasifikasi → Dokumentasi", "Pengujian → Sertifikasi → Peluncuran"], exp: "Tahap penyaringan awal → Penetapan kondisi/posisi → Tindakan lanjutan terarah." },
+            { cat: "Analogi Tiga Kata & Rantai", sub: "Rantai Konseptual", level: "Advanced", q: "HIPOTESIS → PENGUJIAN → TEORI setara dengan...", correct: "Naskah → Penyuntingan → Publikasi", wrong: ["Gagasan → Diskusi → Kesepakatan", "Konsep → Penerapan → Evaluasi", "Rancangan → Pengujian → Produk", "Data → Pengolahan → Informasi"], exp: "Gagasan awal → Proses penyaringan/validasi → Bentuk final yang diakui." },
+
+            // --- 5. PENGELOMPOKAN KATA (15 SOAL) ---
+            { cat: "Pengelompokan Kata", sub: "Kategori Benda", level: "Medium", q: "Pilihlah satu kata yang TIDAK TERMASUK dalam kelompoknya!", correct: "Cengkih", wrong: ["Jahe", "Lengkuas", "Kencur", "Temulawak"], exp: "Jahe, Lengkuas, Kencur, Temulawak adalah tanaman rimpang. Cengkih adalah kuncup bunga kering." },
+            { cat: "Pengelompokan Kata", sub: "Profesi", level: "Medium", q: "Manakah kata yang TIDAK SEKELOMPOK dengan kata lainnya?", correct: "Koreografer", wrong: ["Konduktor", "Komponis", "Vokalis", "Arranger"], exp: "Konduktor, Komponis, Vokalis, Arranger bergerak di bidang musik. Koreografer di bidang tari." },
+            { cat: "Pengelompokan Kata", sub: "Geografi", level: "Medium", q: "Tentukan satu kata yang BERBEDA dibanding empat pilihan lain!", correct: "Banda", wrong: ["Malaka", "Makassar", "Karimata", "Sunda"], exp: "Malaka, Makassar, Karimata, dan Sunda adalah selat. Banda adalah nama laut (Laut Banda)." },
+            { cat: "Pengelompokan Kata", sub: "Satuan Ukur", level: "Medium", q: "Pilihlah satu kata yang BERBEDA dari kelompoknya!", correct: "Kelvin", wrong: ["Watt", "Joule", "Kalori", "Erg"], exp: "Watt, Joule, Kalori, dan Erg berkaitan dengan energi/daya. Kelvin adalah satuan suhu." },
+            { cat: "Pengelompokan Kata", sub: "Alat Musik", level: "Medium", q: "Manakah kata yang TIDAK TERMASUK dalam kelompok alat musik perkusi?", correct: "Obo", wrong: ["Timpani", "Marimba", "Xilofon", "Simbal"], exp: "Timpani, Marimba, Xilofon, dan Simbal dimainkan dengan dipukul (perkusi). Obo dimainkan dengan ditiup." },
+            { cat: "Pengelompokan Kata", sub: "Sifat Abstrak", level: "Upper Medium", q: "Tentukan kata yang TIDAK SEKELOMPOK berdasarkan ciri makna!", correct: "Plagiat", wrong: ["Orisinal", "Autentik", "Murni", "Asli"], exp: "Orisinal, Autentik, Murni, Asli bermakna keaslian. Plagiat bermakna jiplakan/tiruan." },
+            { cat: "Pengelompokan Kata", sub: "Organ Tubuh", level: "Upper Medium", q: "Manakah kata yang BERBEDA kelompok sistem tubuhnya?", correct: "Alveolus", wrong: ["Nefron", "Ureter", "Kandung Kemih", "Uretra"], exp: "Nefron, Ureter, Kandung Kemih, Uretra bagian sistem urinaria. Alveolus bagian sistem pernapasan." },
+            { cat: "Pengelompokan Kata", sub: "Klasifikasi Hewan", level: "Upper Medium", q: "Pilihlah satu kata yang BERBEDA dari kelompok biologisnya!", correct: "Komodo", wrong: ["Katak", "Salamander", "Sesilia", "Kodok"], exp: "Katak, Salamander, Sesilia, dan Kodok adalah amfibi. Komodo adalah reptil." },
+            { cat: "Pengelompokan Kata", sub: "Geopolitik", level: "Upper Medium", q: "Tentukan satu negara yang BERBEDA kawasannya dari kelompok ini!", correct: "Suriname", wrong: ["Kenya", "Tanzania", "Uganda", "Ethiopia"], exp: "Kenya, Tanzania, Uganda, dan Ethiopia berada di Afrika Timur. Suriname berada di Amerika Selatan." },
+            { cat: "Pengelompokan Kata", sub: "Klasifikasi Zat", level: "Hard", q: "Pilihlah kata yang TIDAK SEKELOMPOK berdasarkan golongan unsur kimia!", correct: "Klorin", wrong: ["Helium", "Neon", "Argon", "Kripton"], exp: "Helium, Neon, Argon, dan Kripton termasuk gas mulia. Klorin termasuk halogen." },
+            { cat: "Pengelompokan Kata", sub: "Bahasa/Sastra", level: "Hard", q: "Manakah yang TIDAK TERMASUK jenis karya prosa fiksi?", correct: "Soneta", wrong: ["Novel", "Cerpen", "Roman", "Novelet"], exp: "Novel, Cerpen, Roman, dan Novelet adalah prosa fiksi. Soneta adalah bentuk puisi terikat." },
+            { cat: "Pengelompokan Kata", sub: "Astronomi", level: "Hard", q: "Pilihlah benda langit yang TIDAK TERMASUK planet luar (jovian)!", correct: "Mars", wrong: ["Jupiter", "Saturnus", "Uranus", "Neptunus"], exp: "Jupiter, Saturnus, Uranus, dan Neptunus adalah planet luar. Mars adalah planet dalam." },
+            { cat: "Pengelompokan Kata", sub: "Istilah Ilmiah", level: "Advanced", q: "Manakah kata istilah yang TIDAK SEKELOMPOK bidang ilmunya?", correct: "Fiskal", wrong: ["Tektonik", "Vulkanik", "Seismik", "Sedimen"], exp: "Tektonik, Vulkanik, Seismik, dan Sedimen adalah istilah geologi. Fiskal adalah istilah ekonomi/keuangan." },
+            { cat: "Pengelompokan Kata", sub: "Sistem Hukum", level: "Advanced", q: "Manakah yang TIDAK TERMASUK sumber hukum formal?", correct: "Sosiologi", wrong: ["Undang-Undang", "Kebiasaan", "Yurisprudensi", "Traktat"], exp: "Undang-Undang, Kebiasaan, Yurisprudensi, dan Traktat adalah sumber hukum formal. Sosiologi adalah ilmu sosial." },
+            { cat: "Pengelompokan Kata", sub: "Struktur Semantik", level: "Advanced", q: "Tentukan satu kata yang TIDAK SEKELOMPOK berdasarkan hubungan makna!", correct: "Ambigu", wrong: ["Eksplisit", "Gamblang", "Tegas", "Lugas"], exp: "Eksplisit, Gamblang, Tegas, dan Lugas bermakna jelas/terang. Ambigu bermakna ganda atau tidak jelas." },
+
+            // --- 6. ANALOGI KOMPLEKS (15 SOAL) ---
+            { cat: "Analogi Kompleks", sub: "Dua Relasi Sekaligus", level: "Upper Medium", q: "NEGOSIASI : KOMPROMI = ...", correct: "Eksperimen : Pembuktian", wrong: ["Observasi : Pendataan", "Analisis : Penguraian", "Diskusi : Pemahaman", "Riset : Pengumpulan"], exp: "Negosiasi bertujuan mencapai kompromi, eksperimen bertujuan mencapai pembuktian." },
+            { cat: "Analogi Kompleks", sub: "Sebab Akibat Tak Langsung", level: "Upper Medium", q: "MONOPOLI : PERSAINGAN = SENSOR : ...", correct: "Kebebasan Berekspresi", wrong: ["Keterbukaan Publik", "Keberagaman Opini", "Penyebaran Berita", "Akses Informasi"], exp: "Monopoli membatasi persaingan, sensor membatasi kebebasan berekspresi." },
+            { cat: "Analogi Kompleks", sub: "Fungsi Tujuan Khusus", level: "Hard", q: "KARANTINA : PENULARAN = ENKRIPSI : ...", correct: "Peretasan Data", wrong: ["Kebocoran Arsip", "Penggandaan Berkas", "Gangguan Sinyal", "Penurunan Kecepatan"], exp: "Karantina mencegah penularan, enkripsi mencegah peretasan/pembacaan data tidak sah." },
+            { cat: "Analogi Kompleks", sub: "Bagian Kontekstual", level: "Hard", q: "JANGKAR : KAPAL = PREMIS : ...", correct: "Argumen", wrong: ["Kesimpulan", "Pernyataan", "Uraian", "Pembahasan"], exp: "Jangkar menahan posisi kapal, premis menjadi dasar penopang argumen." },
+            { cat: "Analogi Kompleks", sub: "Hierarki Tingkat Tinggi", level: "Hard", q: "DEKAN : FAKULTAS = REKTOR : ...", correct: "Universitas", wrong: ["Institut", "Sekolah Tinggi", "Akademi", "Politeknik"], exp: "Dekan memimpin fakultas, rektor memimpin universitas." },
+            { cat: "Analogi Kompleks", sub: "Nuansa Makna Dekat", level: "Hard", q: "LITIGASI : PENGADILAN = ARBITRASE : ...", correct: "Lembaga Wasit Sengketa", wrong: ["Majelis Hakim", "Dewan Etik", "Komisi Mediasi", "Badan Peradilan"], exp: "Litigasi menempuh jalur pengadilan, arbitrase menempuh jalur lembaga wasit sengketa." },
+            { cat: "Analogi Kompleks", sub: "Hubungan Abstrak", level: "Hard", q: "NOSTALGIA : MASA LAMPAU = ANTISIPASI : ...", correct: "Masa Depan", wrong: ["Rencana Kerja", "Perkiraan Arah", "Kesiapan Diri", "Langkah Awal"], exp: "Nostalgia mengarah pada masa lampau, antisipasi mengarah pada masa depan." },
+            { cat: "Analogi Kompleks", sub: "Proses Kritis", level: "Hard", q: "VERIFIKASI : VALIDITAS = KALIBRASI : ...", correct: "Presisi", wrong: ["Akurasi", "Standar", "Skala", "Kualitas"], exp: "Verifikasi memastikan validitas, kalibrasi memastikan presisi alat ukur." },
+            { cat: "Analogi Kompleks", sub: "Eliminasi Sistematis", level: "Advanced", q: "IMUNITAS : INFEKSI = INSULASI : ...", correct: "Perpindahan Panas", wrong: ["Hambatan Arus", "Redaman Suara", "Pantulan Cahaya", "Tekanan Udara"], exp: "Imunitas melindungi dari infeksi, insulasi menghambat perpindahan panas/energi." },
+            { cat: "Analogi Kompleks", sub: "Relasi Spesifik Kausal", level: "Advanced", q: "FUNGISIDA : JAMUR = HERBISIDA : ...", correct: "Gulma", wrong: ["Ulat", "Tungau", "Kutu", "Wereng"], exp: "Fungisida membasmi jamur, herbisida membasmi gulma." },
+            { cat: "Analogi Kompleks", sub: "Konsep & Penerapan", level: "Advanced", q: "POSTULAT : GEOMETRI = KREDO : ...", correct: "Keyakinan", wrong: ["Doktrin", "Prinsip", "Ajaran", "Pandangan"], exp: "Postulat adalah pernyataan dasar dalam geometri, kredo adalah pernyataan dasar keyakinan." },
+            { cat: "Analogi Kompleks", sub: "Kesesuaian Tipe Relasi", level: "Advanced", q: "OTOKRASI : TUNGGAL = DEMOKRASI : ...", correct: "Rakyat", wrong: ["Warga", "Pemilih", "Majelis", "Wakil"], exp: "Otokrasi berpusat pada penguasa tunggal, demokrasi berpusat pada rakyat." },
+            { cat: "Analogi Kompleks", sub: "Analogi Abstrak Kompleks", level: "Advanced", q: "EUFEMISME : PENGHALUSAN = HIPERBOLA : ...", correct: "Melebih-lebihkan", wrong: ["Mempertegas", "Mengibaratkan", "Menyamarkan", "Menggambarkan"], exp: "Eufemisme adalah penghalusan ungkapan, hiperbola adalah melebih-lebihkan ungkapan." },
+            { cat: "Analogi Kompleks", sub: "Ganda Kompleks", level: "Advanced", q: "VAKSIN : ANTIBODI = PUPUK : ...", correct: "Kesuburan", wrong: ["Pertumbuhan", "Nutrisi", "Hasil Panen", "Kualitas Tanah"], exp: "Vaksin merangsang pembentukan antibodi, pupuk meningkatkan kesuburan tanah." },
+            { cat: "Analogi Kompleks", sub: "Struktur Lanjut", level: "Advanced", q: "SINTESIS : PENGGABUNGAN = ANALISIS : ...", correct: "Penguraian", wrong: ["Pemilahan", "Pemeriksaan", "Pengkajian", "Pemisahan"], exp: "Sintesis adalah proses penggabungan unsur, analisis adalah proses penguraian unsur." }
+        ];
+
+        // Target Distribusi Kunci Jawaban (Tepat 20 per Posisi: 0=A, 1=B, 2=C, 3=D, 4=E)
+        const keyPattern = [];
+        for (let pos = 0; pos < 5; pos++) {
+            for (let k = 0; k < 20; k++) {
+                keyPattern.push(pos);
+            }
+        }
+
+        // Acak pola distribusi kunci secara teratur
+        for (let i = keyPattern.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [keyPattern[i], keyPattern[j]] = [keyPattern[j], keyPattern[i]];
+        }
+
+        const formattedQuestions = [];
+
+        rawQuestions.forEach((item, index) => {
+            const targetPos = keyPattern[index]; // 0=A, 1=B, 2=C, 3=D, 4=E
+            const opts = ["", "", "", "", ""];
+            const wrongCopy = [...item.wrong];
+
+            // Acak urutan pengecoh agar posisi pengecoh tidak selalu sama
+            for (let w = wrongCopy.length - 1; w > 0; w--) {
+                const r = Math.floor(Math.random() * (w + 1));
+                [wrongCopy[w], wrongCopy[r]] = [wrongCopy[r], wrongCopy[w]];
+            }
+
+            // Masukkan jawaban benar di posisi target
+            opts[targetPos] = item.correct;
+
+            // Isi posisi sisanya dengan pilihan pengecoh
+            for (let p = 0; p < 5; p++) {
+                if (p !== targetPos) {
+                    opts[p] = wrongCopy.shift();
+                }
+            }
+
+            // Beri label A., B., C., D., E.
+            const labeledOpts = opts.map((optText, idx) => {
+                const label = String.fromCharCode(65 + idx); // A, B, C, D, E
+                return `${label}. ${optText}`;
+            });
+
+            formattedQuestions.push({
+                id: `CAT3-${String(index + 1).padStart(3, '0')}`,
+                cat: item.cat,
+                subcat: item.sub,
+                level: item.level,
+                q: `<b>[${item.cat.toUpperCase()}]</b> ${item.q}`,
+                opts: labeledOpts,
+                ans: targetPos,
+                exp: `<b>Jawaban Benar: ${String.fromCharCode(65 + targetPos)} (${item.correct})</b><br>${item.exp}`
+            });
+        });
+
+        return formattedQuestions;
+    }
+
+    const questions = buildVerbalQuestionsBalanced();
+
+    let currentIdx = 0;
+    let userAnswers = {};
+    let timerInterval = null;
+    let timeLeft = 90 * 60; // 90 Menit
+
+    function startCAT() {
+        let nama = document.getElementById("inputNama").value.trim();
+        if (!nama) {
+            alert("Harap masukkan Nama Lengkap peserta terlebih dahulu!");
+            return;
+        }
+
+        document.getElementById("sec-start").style.display = "none";
+        document.getElementById("sec-exam").style.display = "block";
+
+        renderNavGrid();
+        renderQuestion();
+        startTimer();
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            document.getElementById("timer").innerText = 
+                String(m).padStart(2, '0') + ":" + String(s).padStart(2, '0');
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                finishExam();
+            }
+        }, 1000);
+    }
+
+    function renderNavGrid() {
+        let grid = document.getElementById("navGrid");
+        grid.innerHTML = "";
+        for (let i = 0; i < questions.length; i++) {
+            let item = document.createElement("div");
+            item.className = "nav-item";
+            if (userAnswers[i] !== undefined) item.classList.add("filled");
+            if (i === currentIdx) item.classList.add("active");
+            item.innerText = i + 1;
+            item.onclick = () => {
+                currentIdx = i;
+                renderQuestion();
+                renderNavGrid();
+            };
+            grid.appendChild(item);
+        }
+    }
+
+    function renderQuestion() {
+        let qData = questions[currentIdx];
+        document.getElementById("q-no").innerText = `Soal Verbal #${currentIdx + 1} dari ${questions.length}`;
+        document.getElementById("q-badge").innerText = `${qData.cat} (${qData.level})`;
+        document.getElementById("q-text").innerHTML = qData.q;
+
+        let optCont = document.getElementById("q-options");
+        optCont.innerHTML = "";
+
+        qData.opts.forEach((optText, idx) => {
+            let div = document.createElement("div");
+            div.className = "opt";
+            if (userAnswers[currentIdx] === idx) div.classList.add("selected");
+            div.innerHTML = optText;
+
+            // AUTONEXT BERFUNGSI PERSIS DENGAN FILE CONTOH (TIDAK BERUBAH)
+            div.onclick = () => {
+                userAnswers[currentIdx] = idx;
+                renderNavGrid();
+                if (currentIdx < questions.length - 1) {
+                    currentIdx++;
+                    renderQuestion();
+                    renderNavGrid();
+                } else {
+                    renderQuestion();
+                }
+            };
+            optCont.appendChild(div);
+        });
+
+        document.getElementById("btn-next").innerText = (currentIdx === questions.length - 1) ? "SELESAI UJIAN" : "Selanjutnya";
+    }
+
+    function nextQuestion() {
+        if (currentIdx < questions.length - 1) {
+            currentIdx++;
+            renderQuestion();
+            renderNavGrid();
+        } else {
+            if (confirm("Apakah Anda yakin ingin mengakhiri ujian CAT Verbal Seri 3 ini dan melihat hasil?")) {
+                finishExam();
+            }
+        }
+    }
+
+    function prevQuestion() {
+        if (currentIdx > 0) {
+            currentIdx--;
+            renderQuestion();
+            renderNavGrid();
+        }
+    }
+
+    function finishExam() {
+        clearInterval(timerInterval);
+
+        let benar = 0;
+        let rekap = {
+            "Sinonim": { benar: 0, total: 20 },
+            "Antonim": { benar: 0, total: 20 },
+            "Analogi Dua Kata": { benar: 0, total: 15 },
+            "Analogi Tiga Kata & Rantai": { benar: 0, total: 15 },
+            "Pengelompokan Kata": { benar: 0, total: 15 },
+            "Analogi Kompleks": { benar: 0, total: 15 }
+        };
+
+        for (let i = 0; i < questions.length; i++) {
+            let cat = questions[i].cat;
+            if (userAnswers[i] === questions[i].ans) {
+                benar++;
+                if (rekap[cat]) rekap[cat].benar++;
+            }
+        }
+
+        let finalScore = (benar / questions.length) * 100;
+        let dijawab = Object.keys(userAnswers).length;
+        let kosong = questions.length - dijawab;
+        let salah = dijawab - benar;
+
+        document.getElementById("sec-exam").style.display = "none";
+        document.getElementById("sec-result").style.display = "block";
+
+        let namaPeserta = document.getElementById("inputNama").value.trim();
+        document.getElementById("resNama").innerText = `PESERTA: ${namaPeserta.toUpperCase()}`;
+        document.getElementById("resScore").innerText = finalScore.toFixed(1);
+        document.getElementById("resDetail").innerText = `Jawaban Benar: ${benar} | Salah: ${salah} | Kosong: ${kosong}`;
+
+        let rekapHtml = "<b>REKAP HASIL PER KATEGORI:</b><br>";
+        for (let k in rekap) {
+            let p = ((rekap[k].benar / rekap[k].total) * 100).toFixed(0);
+            rekapHtml += `• ${k}: ${rekap[k].benar}/${rekap[k].total} Benar (${p}%)<br>`;
+        }
+        document.getElementById("rekapKategori").innerHTML = rekapHtml;
+
+        // Kirim hasil ke Google Apps Script Master
+        sendToAppsScript(namaPeserta, finalScore, benar, salah, kosong, rekap);
+    }
+
+    function sendToAppsScript(nama, score, benar, salah, kosong, rekap) {
+        let payload = {
+            sessionId: "CAT-VRB3-" + Date.now(),
+            namaSiswa: nama,
+            program: "CAT VERBAL SERI 3",
+            namaTryout: "CAT Verbal Seri 3 — 100 Soal Kemampuan Verbal",
+            tanggal: new Date().toLocaleDateString('id-ID'),
+            kecerdasan: score.toFixed(2),
+            nilaiAkhir: score.toFixed(2),
+            persentaseBenar: score.toFixed(1) + "%",
+            jumlahSoal: 100,
+            jumlahBenar: benar,
+            jumlahSalah: salah,
+            jumlahKosong: kosong,
+            rekapKategori: rekap
+        };
+
+        fetch(APP_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        }).catch(err => console.error("Apps Script Error:", err));
+    }
+
+    function showReview() {
+        document.getElementById("sec-result").style.display = "none";
+        document.getElementById("sec-review").style.display = "block";
+
+        let namaPeserta = document.getElementById("inputNama").value.trim();
+        document.getElementById("reviewNamaPeserta").innerText = `PESERTA: ${namaPeserta.toUpperCase()}`;
+
+        let revCont = document.getElementById("reviewContainer");
+        revCont.innerHTML = "";
+
+        questions.forEach((q, i) => {
+            let uAns = userAnswers[i];
+            let isCorrect = (uAns === q.ans);
+
+            let div = document.createElement("div");
+            div.className = `review-item ${isCorrect ? 'correct' : 'incorrect'}`;
+
+            let optsHtml = q.opts.map((o, idx) => {
+                let style = "";
+                if (idx === q.ans) style = "color:green; font-weight:bold;";
+                if (idx === uAns && !isCorrect) style = "color:red; text-decoration:line-through;";
+                return `<div style="${style}">${o} ${idx === q.ans ? '✓ (Kunci)' : ''} ${idx === uAns ? '(Pilihan Anda)' : ''}</div>`;
+            }).join("");
+
+            div.innerHTML = `
+                <div style="font-size:12px; color:#64748b; font-weight:bold; margin-bottom:5px;">[${q.cat.toUpperCase()} — ${q.level.toUpperCase()}]</div>
+                <b>Soal #${i+1}:</b> ${q.q}
+                <div style="margin:10px 0; font-size:13px;">${optsHtml}</div>
+                <div class="pembahasan-box"><b>Pembahasan Detail:</b><br>${q.exp}</div>
+            `;
+            revCont.appendChild(div);
+        });
+    }
+
+    function showSection(sec) {
+        document.getElementById("sec-result").style.display = "none";
+        document.getElementById("sec-review").style.display = "none";
+        document.getElementById("sec-" + sec).style.display = "block";
+    }
+
+    // Download Pembahasan ke PDF
+    function downloadReviewPDF() {
+        const { jsPDF } = window.jspdf;
+        let element = document.getElementById("reviewCaptureArea");
+        let btn = document.getElementById("btnDownloadReview");
+        btn.innerText = "⏳ MEMPROSES PDF...";
+
+        html2canvas(element, { scale: 1.2, useCORS: true }).then(canvas => {
+            let imgData = canvas.toDataURL('image/jpeg', 0.8);
+            let pdf = new jsPDF('p', 'mm', 'a4');
+            let imgWidth = 210;
+            let pageHeight = 295;
+            let imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            let namaPeserta = document.getElementById("inputNama").value.trim() || "Peserta";
+            pdf.save(`Pembahasan_CAT_Verbal_Seri3_${namaPeserta.replace(/\s+/g, '_')}.pdf`);
+            btn.innerText = "📥 DOWNLOAD PEMBAHASAN (PDF)";
+        }).catch(err => {
+            alert("Gagal mengunduh PDF Pembahasan.");
+            btn.innerText = "📥 DOWNLOAD PEMBAHASAN (PDF)";
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tryout Mix Verbal — Persona Research & Consulting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #0d0d12;
+            --midnight: #1e132c;
+            --navy: #141e30;
+            --cream: #faf8f5;
+            --rose: #b76e79;
+            --rose-light: rgba(183, 110, 121, 0.14);
+            --rose-border: rgba(183, 110, 121, 0.35);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-muted: #a39ea8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top right, var(--midnight), var(--navy) 45%, var(--obsidian) 100%);
+            color: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 36px 5% 28px;
+            border-bottom: 1px solid rgba(250, 248, 245, 0.08);
+            background: rgba(13, 13, 18, 0.65);
+            backdrop-filter: blur(12px);
+        }
+
+        .header-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 8px;
+        }
+
+        .brand-badge::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--rose);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 4vw, 36px);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--cream);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .meta-pill {
+            background: var(--rose-light);
+            border: 1px solid var(--rose-border);
+            color: var(--cream);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1040px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 5% 60px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-label::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(250, 248, 245, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(250, 248, 245, 0.09);
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--rose), transparent);
+            opacity: 0.6;
+            transition: opacity 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--rose-border);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+            background: rgba(255, 255, 255, 0.045);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .seri-tag {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--rose);
+            background: var(--rose-light);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .level-tag {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            border: 1px solid rgba(250, 248, 245, 0.15);
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        .card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--cream);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        .specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(250, 248, 245, 0.08);
+            border-bottom: 1px solid rgba(250, 248, 245, 0.08);
+            margin-bottom: 22px;
+            font-size: 12.5px;
+        }
+
+        .spec-item span {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .spec-item strong {
+            color: var(--cream);
+            font-weight: 600;
+        }
+
+        .topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 24px;
+        }
+
+        .topic-chip {
+            font-size: 11px;
+            color: #d6d2db;
+            background: rgba(250, 248, 245, 0.05);
+            padding: 4px 9px;
+            border-radius: 6px;
+        }
+
+        .btn-start {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 13px 20px;
+            background: var(--rose);
+            color: var(--obsidian);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13.5px;
+            letter-spacing: 0.03em;
+            border-radius: 10px;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-start:hover {
+            background: #c97f8a;
+        }
+
+        .btn-start svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-start:hover svg {
+            transform: translateX(3px);
+        }
+
+        footer {
+            padding: 24px 5%;
+            border-top: 1px solid rgba(250, 248, 245, 0.08);
+            background: rgba(13, 13, 18, 0.8);
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        .footer-inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-brand {
+            color: var(--cream);
+            font-weight: 600;
+        }
+
+        .footer-contact a {
+            color: var(--rose);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <div>
+            <div class="brand-badge">Persona Research &amp; Consulting • PRC Class</div>
+            <h1>Tryout Mix Verbal</h1>
+            <p class="subtitle">Portal Simulasi CAT Kemampuan Verbal — Sinonim, Antonim, Analogi &amp; Pengelompokan Kata</p>
+        </div>
+        <div class="meta-pill">3 Paket Simulasi • 300 Total Soal</div>
+    </div>
+</header>
+
+<main>
+    <div class="section-label">Pilih Paket Tryout CAT Verbal</div>
+
+    <div class="grid">
+        <!-- SERI 1 -->
+        <article class="card">
+            <div>
+                <div class="card-top">
+                    <span class="seri-tag">Seri 01</span>
+                    <span class="level-tag">Mudah → Medium</span>
+                </div>
+                <h2>CAT Verbal Seri 1</h2>
+                <p>Penguatan fondasi kosakata dasar, hubungan padanan kata, dan identifikasi kelompok kata tingkat pemula hingga menengah.</p>
+                
+                <div class="specs">
+                    <div class="spec-item">
+                        <span>Jumlah Soal</span>
+                        <strong>100 Butir Soal</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Durasi Ujian</span>
+                        <strong>90 Menit</strong>
+                    </div>
+                </div>
+
+                <div class="topics">
+                    <span class="topic-chip">Sinonim (20)</span>
+                    <span class="topic-chip">Antonim (20)</span>
+                    <span class="topic-chip">Analogi 2 Kata (15)</span>
+                    <span class="topic-chip">Analogi Rantai (15)</span>
+                    <span class="topic-chip">Pengelompokan (15)</span>
+                    <span class="topic-chip">Analogi Kompleks (15)</span>
+                </div>
+            </div>
+
+            <a href="tryout_verbal_1.html" class="btn-start">
+                <span>Mulai CAT Verbal Seri 1</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </article>
+
+        <!-- SERI 2 -->
+        <article class="card">
+            <div>
+                <div class="card-top">
+                    <span class="seri-tag">Seri 02</span>
+                    <span class="level-tag">Mudah → Sedang</span>
+                </div>
+                <h2>CAT Verbal Seri 2</h2>
+                <p>Pemantapan kecepatan analisis relasi verbal, diksi formal, serta penalaran analogi tiga kata bertingkat.</p>
+                
+                <div class="specs">
+                    <div class="spec-item">
+                        <span>Jumlah Soal</span>
+                        <strong>100 Butir Soal</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Durasi Ujian</span>
+                        <strong>90 Menit</strong>
+                    </div>
+                </div>
+
+                <div class="topics">
+                    <span class="topic-chip">Sinonim (20)</span>
+                    <span class="topic-chip">Antonim (20)</span>
+                    <span class="topic-chip">Analogi 2 Kata (15)</span>
+                    <span class="topic-chip">Analogi Rantai (15)</span>
+                    <span class="topic-chip">Pengelompokan (15)</span>
+                    <span class="topic-chip">Analogi Kompleks (15)</span>
+                </div>
+            </div>
+
+            <a href="tryout_verbal_2.html" class="btn-start">
+                <span>Mulai CAT Verbal Seri 2</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </article>
+
+        <!-- SERI 3 -->
+        <article class="card">
+            <div>
+                <div class="card-top">
+                    <span class="seri-tag">Seri 03</span>
+                    <span class="level-tag">Medium → Advanced</span>
+                </div>
+                <h2>CAT Verbal Seri 3</h2>
+                <p>Uji ketelitian tingkat lanjut dengan kosakata akademik, nuansa makna spesifik, dan pengecoh semantik ketat.</p>
+                
+                <div class="specs">
+                    <div class="spec-item">
+                        <span>Jumlah Soal</span>
+                        <strong>100 Butir Soal</strong>
+                    </div>
+                    <div class="spec-item">
+                        <span>Durasi Ujian</span>
+                        <strong>90 Menit</strong>
+                    </div>
+                </div>
+
+                <div class="topics">
+                    <span class="topic-chip">Sinonim (20)</span>
+                    <span class="topic-chip">Antonim (20)</span>
+                    <span class="topic-chip">Analogi 2 Kata (15)</span>
+                    <span class="topic-chip">Analogi Rantai (15)</span>
+                    <span class="topic-chip">Pengelompokan (15)</span>
+                    <span class="topic-chip">Analogi Kompleks (15)</span>
+                </div>
+            </div>
+
+            <a href="tryout_verbal_3.html" class="btn-start">
+                <span>Mulai CAT Verbal Seri 3</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div>
+            <span class="footer-brand">Persona Research &amp; Consulting</span> • Disusun oleh Yeari.P
+        </div>
+        <div class="footer-contact">
+            Info &amp; Bantuan: <a href="https://wa.me/6287742515786" target="_blank" rel="noopener">WhatsApp 0877-4251-5786</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
